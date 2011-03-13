@@ -1,0 +1,1 @@
+@"C:\Program Files\Python26\python.exe" %*
