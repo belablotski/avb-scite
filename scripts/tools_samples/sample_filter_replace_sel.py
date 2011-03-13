@@ -1,7 +1,7 @@
 import sys
 
 selection = sys.stdin.read()
-result = '--' + selection + '--'
+result = '/* ' + selection + ' */'
 sys.stdout.write(result)
 
 exit(0)
