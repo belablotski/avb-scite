@@ -1,6 +1,5 @@
 import sys
 
-
 print "Sample filter script, called from SciTE tools menu..."
 print "$(SelectionStartColumn) $(SelectionStartLine) $(SelectionEndColumn) $(SelectionEndLine)"
 print "Command line arguments:"
