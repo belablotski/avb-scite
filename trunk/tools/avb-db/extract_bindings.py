@@ -18,6 +18,7 @@ def get_sql():
 	#return ''.join(sql)
 	selection = sys.stdin.read()
 	if selection == '_':
+		print "Selection region is empty!"
 		exit(1)
 	return selection
 	
