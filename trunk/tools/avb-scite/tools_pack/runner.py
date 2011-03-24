@@ -7,11 +7,23 @@ import sys
 sys.path.append('C:/Programs/avb-scite/tools/avb-scite/tools_pack')
 #print sys.path
 
-class ToolException(Exception):
+class AvbSciteToolException(Exception):
 	pass
 
-class ToolBase:
-	def __init__(self, input_stream, output_stream, *args):
+
+class AvbSciteToolBase(object):
+	def __init__(self, input_stream, output_stream):
+		self.input_stream = input_stream
+		self.output_stream = output_stream
+		#self.pos_args = args
+		#self.kw_args = kwargs
+		
+	def run(self):
+		raise NotImplementedError("Method is't implemented.")
+
+
+class EchoTool(AvbSciteToolBase):
+	def __init__(self, input_stream, output_stream, *args, **kwargs):
 		pass
 		
 	def run(self):
@@ -27,6 +39,5 @@ if __name__ == '__main__2':
 		output_stream.write(line)
 	
 if __name__ == '__main__':	
-	t = ToolBase(None, None, None)
+	t = AvbSciteToolBase(None, None)
 	t.run()
-		
