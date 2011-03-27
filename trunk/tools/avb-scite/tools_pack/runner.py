@@ -16,5 +16,7 @@ if __name__ == '__main__2':
 		output_stream.write(line)
 	
 if __name__ == '__main__':	
-	t = AvbSciteToolBase(None, None)
-	t.run()
+	print(sys.argv)
+#	t = ToolBase(None, None)
+#	t.run()
+	

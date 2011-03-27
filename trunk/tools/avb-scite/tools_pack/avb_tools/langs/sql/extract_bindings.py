@@ -6,7 +6,8 @@ TODO:
 """
 import sys, re
 
-from avb_tools.core.basetools import AvbSciteToolBase
+#from avb_tools.core.basetools import AvbSciteToolBase
+
 
 def remove_comments(sql):
 	sql = re.sub("(?m)--.*$", "", sql)
@@ -20,7 +21,7 @@ def get_sql():
 	#return ''.join(sql)
 	selection = sys.stdin.read()
 	if selection == '_':
-		print "Selection region is empty!"
+		print("Selection region is empty!")
 		exit(1)
 	return selection
 	
@@ -50,6 +51,6 @@ if __name__ == '__main__':
 			bindings_counts[binding] += 1
 		else:
 			bindings_counts[binding] = 1
-	print "\n".join(sorted(bindings_counts.keys()))
+	print("\n".join(sorted(bindings_counts.keys())))
 
 	
