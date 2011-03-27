@@ -1,1 +1,1 @@
-@"C:\Program Files\Python26\python.exe" %*
+@"C:\Program Files\Python32\python.exe" %*
