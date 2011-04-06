@@ -6,7 +6,32 @@ import random
 from subprocess import *
 from avb_tools.settings import TEMP_DIR
 
+
+class ProcessorBase(object):
+	"""
+	Base class for all processors.
+	Processors are used for pre and post processing data before and after tool execution.
+	"""
+	def __init__(self):
+		pass
+
+	def process(s):
+		return(s)
+
+
+class PreProcessor(ProcessorBase):
+	def __init__(self):
+		super(PreProcessor, self).__init__()
+
+
+class PostProcessor(ProcessorBase):
+	def __init__(self):
+		super(PostProcessor, self).__init__()
+
+
+
 class ToolBase(object):
+	"""Base class for all tools"""
 	def __init__(self, input_stream, output_stream):
 		self.input_stream = input_stream
 		self.output_stream = output_stream
@@ -57,9 +82,14 @@ class TempFileTool(ToolBase):
 			F.close()
 			
 	def _run_suprocess(self):
-		print("system/qwerty1@ORCL_VM1 @" + self.tmp_file)
-		po = Popen(["sqlplus.exe", "system/qwerty1@ORCL_VM1", "@"+self.tmp_file], stdout=PIPE, stderr=PIPE)
-		pid = po.pid
+		print("system/avb1-pass@avb1 @" + self.tmp_file)
+		#po = Popen(["sqlplus.exe", "system/avb1-pass@avb1 @"+self.tmp_file], stdout=PIPE, stderr=PIPE)
+		#pid = po.pid
+		#po = Popen(["cmd",], stdout=PIPE, stderr=PIPE)
+		with Popen(["sqlplus.exe", "-S", "system/avb1-pass@avb1", "@"+self.tmp_file], stdout=PIPE) as proc:
+			output = proc.stdout.read()
+			print(str(output, encoding="Utf-8"))
+
 			
 	def run(self):
 		self._save_input_stream()
