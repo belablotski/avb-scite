@@ -12,6 +12,12 @@ class SqlPlusTool(TempFileTool):
         x = sys.stdin.read()
         if x == '@':
             raise EmptyInputException()
+        x = x.strip()
+        if len(x) == 0:
+            raise EmptyInputException()
+        if x[-1] != ';':
+            x += ';'
+        x = x.replace(chr(10), ' ').replace(chr(13), ' ')
         super(SqlPlusTool, self).__init__(io.StringIO(x[1:]), sys.stdout)
 
 tool = SqlPlusTool()

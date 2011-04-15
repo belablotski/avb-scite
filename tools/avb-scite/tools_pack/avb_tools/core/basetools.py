@@ -157,7 +157,8 @@ class TempFileTool(ToolBase):
 		#po = Popen(["sqlplus.exe", "system/avb1-pass@avb1 @"+self.tmp_file], stdout=PIPE, stderr=PIPE)
 		#pid = po.pid
 		#po = Popen(["cmd",], stdout=PIPE, stderr=PIPE)
-		with Popen(["sqlplus.exe", "-S", "system/avb1-pass@avb1", "@"+self.tmp_file], stdout=PIPE) as proc:
+		# "system/avb1-pass@avb1"
+		with Popen(["sqlplus.exe", "-S", "BIMARTS/BIMARTS@ORCL161", "@"+self.tmp_file], stdout=PIPE) as proc:
 			output = proc.stdout.read()
 			print(str(output, encoding=self.encoding))
 
