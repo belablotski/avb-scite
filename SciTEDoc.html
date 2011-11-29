@@ -563,13 +563,10 @@ NameError: mistake
         <td>Expand or contract a fold point.</td><td>Ctrl+Keypad*</td>
       </tr>
       <tr>
-        <td>Create or delete a bookmark.</td><td>Ctrl+F2</td>
-      </tr>
-      <tr>
-        <td>Go to next bookmark.</td><td>F2</td>
-      </tr>
-      <tr>
         <td>Select to next bookmark.</td><td>Alt+F2</td>
+      </tr>
+      <tr>
+        <td>Select to previous bookmark.</td><td>Alt+Shift+F2</td>
       </tr>
       <tr>
         <td>Find selection.</td><td>Ctrl+F3</td>
@@ -638,6 +635,10 @@ NameError: mistake
         <td>Extend rectangular selection to end of line.</td><td>Alt+Shift+End</td>
       </tr>
     </table>
+    <p class="windowsonly">
+       On Windows, a search can be performed in the opposite direction by
+       using Shift+Enter in the Find or Replace strips or dialogs.
+    </p>
     <h3 id="Abbreviations">
        Abbreviations
     </h3>
@@ -665,8 +666,7 @@ NameError: mistake
        Some simple examples are included in the distributed Abbreviations file.<br />
        When expanding, the names don't need to be separated from the previous text.
        Ie. if you define 'é' as '&amp;eacute;', you can expand it inside a word.<br />
-       If a name is the ending of another one, only the shorter will ever be expanded.
-       Ie. if you define 'ring' and 'gathering', the later will see only the 'ring' part expanded.
+       When multiple abbreviation names match, the longest matching name will be expanded.
     </p>
     <h3 id="Folding">
        Folding
@@ -839,6 +839,12 @@ NameError: mistake
        extension is assumed. Therefore a "import Lua" statement in
        c:\os\scite\bin\SciTEGlobal.properties will import
        c:\os\scite\bin\Lua.properties.
+    </p>
+    <p>
+       All of the properties files in a directory can be imported with "import *".
+       This does not import generic properties files like user properties or abbreviations.
+       The set of files that are imported can be controlled with the imports.include and imports.exclude
+       properties.
     </p>
     <p>
       The 'if' statement takes one argument which is a
@@ -1190,18 +1196,6 @@ NameError: mistake
           The statusbar.number option defines how many texts are to be cycled through.
         </td>
       </tr>
-      <tr class="windowsonly">
-        <td>
-          use.palette
-        </td>
-        <td>
-          Setting this to 1 makes SciTE use a palette to enable it to display more colours on 8 bit
-          displays. Without this option SciTE will only display with colours already available
-          which is normally the 20 colour Windows system palette. The downside of turning on this
-          option is that there will be some flashing as windows are activated. This option has no
-          effect on GTK+ where a palette is always used.
-        </td>
-      </tr>
       <tr>
         <td>
           buffered.draw
@@ -1227,6 +1221,15 @@ NameError: mistake
         fixes this by drawing all the backgrounds first and then drawing the text in
         transparent mode. Two phase drawing may flicker more than single phase
         unless buffered drawing is on. The default is for drawing to be two phase.
+        </td>
+      </tr>
+      <tr class="windowsonly">
+        <td>
+          technology
+        </td>
+        <td>
+        On Windows Vista or newer, this can be set to 1 to use the Direct2D and DirectWrite APIs
+        for higher quality antialiased drawing. The default is 0.
         </td>
       </tr>
       <tr>
@@ -1285,6 +1288,16 @@ NameError: mistake
         <td>
         When this option is set then opened documents are initially read only.
         New files are not affected by this setting.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          open.asynchronous
+        </td>
+        <td>
+          This setting controls whether files can be opened without blocking the user interface
+	while they are being read. The default value 1 allows background reading in many
+	cases. All background reading is turned off with <span class="example">open.asynchronous=0</span>.
         </td>
       </tr>
       <tr class="windowsonly">
@@ -1525,6 +1538,21 @@ NameError: mistake
           The error.marker.back is used as the fill colour of the symbol and the error.marker.fore
           as the outline colour. If there is no margin then the background to the line is set to the
           error.marker.back colour.
+        </td>
+       </tr>
+      <tr>
+        <td>
+          error.inline<br />
+          style.error.0<br />
+          style.error.1<br />
+          style.error.2<br />
+          style.error.3
+        </td>
+        <td>
+          To see error messages interspersed with the source code, set error.inline=1.<br />
+          Different visual styles are used for different severities: style.error.0 is the default;
+          style.error.1 for warnings; style.error.2 for errors; and style.error.3 for fatal errors.
+          The severity of a message is inferred from finding the text "warning", "error", or "fatal" in the message.
         </td>
        </tr>
       <tr>
@@ -1859,10 +1887,6 @@ NameError: mistake
 	<td>This option enables folding multi-line comments and explicit fold points when using the C++ lexer. Explicit fold points allows adding extra folding by placing a //{ comment at the start and a //} at the end of a section that should fold.</td>
 	</tr>
 	<tr>
-	<td>fold.comment.python</td>
-	<td>This option enables folding multi-line comments when using the Python lexer.</td>
-	</tr>
-	<tr>
 	<td>fold.cpp.comment.explicit</td>
 	<td>Set this property to 0 to disable folding explicit fold points when fold.comment=1.</td>
 	</tr>
@@ -1967,6 +1991,10 @@ NameError: mistake
 	<td>Set to 0 to disallow the '$' character in identifiers with the cpp lexer.</td>
 	</tr>
 	<tr>
+	<td>lexer.cpp.hashquoted.strings</td>
+	<td>Set to 1 to enable highlighting of hash-quoted strings.</td>
+	</tr>
+	<tr>
 	<td>lexer.cpp.track.preprocessor</td>
 	<td>Set to 1 to interpret #if/#else/#endif to grey out code that is not active.</td>
 	</tr>
@@ -2001,6 +2029,10 @@ NameError: mistake
 	<tr>
 	<td>lexer.props.allow.initial.spaces</td>
 	<td>For properties files, set to 0 to style all lines that start with whitespace in the default style. This is not suitable for SciTE .properties files which use indentation for flow control but can be used for RFC2822 text where indentation is used for continuation lines.</td>
+	</tr>
+	<tr>
+	<td>lexer.python.keywords2.no.sub.identifiers</td>
+	<td>When enabled, it will not style keywords2 items that are used as a sub-identifier. Example: when set, will not highlight "foo.open" when "open" is a keywords2 item.</td>
 	</tr>
 	<tr>
 	<td>lexer.python.literals.binary</td>
@@ -2554,6 +2586,45 @@ c:\cygwin\bin\xargs -0 fgrep -G -n "$(find.what)"
       </tr>
       <tr>
         <td>
+          imports.include<br />
+          imports.exclude
+        </td>
+        <td>
+          These settings control which files are imported by import statements.<br/>
+	The imports.include property defines the names of the properties
+	files that may be imported. Say you are only interested in using
+	fortran and lisp, then in user properties, you could set<br />
+	<div class="example">
+imports.include=fortran lisp
+	</div>
+	The imports.exclude property is examined only if imports.include is empty or missing.
+	This property stops the named files from being imported.
+        </td>
+      </tr>
+      <tr>
+        <td>
+        command.discover.properties
+        </td>
+        <td>
+        This property can be used to run a program to determine file encoding and other properties
+        when a file is loaded.<br />
+        The program should print a list of property=value lines for each property it wants to set.
+        This is the same format as properties files.<br />
+        <div class="example">
+	      command.discover.properties=python /home/user/FileDetect.py "$(FilePath)"
+         </div>
+        A simple Python script that recognises a particular tag that indicates the file is in the Korean code page 949:<br />
+        <div class="example">
+<span><span class="S5">import</span><span class="S0"> </span>sys<br />
+<span class="S5">if</span><span class="S0"> </span><span class="S3">"Language:Korean"</span><span class="S0"> </span><span class="S5">in</span><span class="S0"> </span>open<span class="S10">(</span>sys<span class="S10">.</span>argv<span class="S10">[</span><span class="S2">1</span><span class="S10">]).</span>read<span class="S10">():</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">print</span><span class="S10">(</span><span class="S4">'code.page=949'</span><span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">print</span><span class="S10">(</span><span class="S4">'character.set=129'</span><span class="S10">)</span><br />
+<span class="S0"></span></span>
+         </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
         comment.block.<i>lexer</i><br />
         comment.block.at.line.start.<i>lexer</i><br />
         comment.stream.start.<i>lexer</i><br />
@@ -2705,11 +2776,13 @@ c:\cygwin\bin\xargs -0 fgrep -G -n "$(find.what)"
           each lexer.<br />
            The value of each setting is a set of ',' separated fields, some of which have a
           subvalue after a ':'. The fields are font, size, fore, back, italics, notitalics, bold,
-          notbold, eolfilled, noteolfilled, underlined, notunderlined, and case.
+          notbold, weight, eolfilled, noteolfilled, underlined, notunderlined, and case.
         The font field has a subvalue which is the name of
-          the font, the fore and back have colour subvalues, the size field has a numeric size
-          subvalue, the case field has a subvalue of 'm', 'u', or 'l' for mixed, upper or lower case,
-        and the bold, italics and eolfilled fields have no subvalue. The value
+          the font, the fore and back have colour subvalues,
+          the size field has a (fractional) numeric size subvalue,
+          the weight field has a numeric size subvalue (1.. 999: 100=light, 400=normal, 700=bold),
+          the case field has a subvalue of 'm', 'u', or 'l' for mixed, upper or lower case,
+          and the bold, italics and eolfilled fields have no subvalue. The value
           "fore:#FF0000,font:Courier,size:14" represents 14 point, red Courier text.<br />
            A global style can be set up using style.*.<i>stylenumber</i>. Any style options set in
           the global style will be inherited by each lexer style unless overridden.<br />
@@ -3312,6 +3385,16 @@ groupundo - yes or no
       </tr>
       <tr>
         <td>
+          os.x.home.end.keys
+        </td>
+        <td>
+	Chooses the standard OS X behaviour for the Home and End keys which is
+	to scroll the file to the start or end. This setting takes precedence over
+	vc.home.key.
+        </td>
+      </tr>
+      <tr>
+        <td>
           vc.home.key
         </td>
         <td>
@@ -3360,15 +3443,6 @@ groupundo - yes or no
           For the GTK+ version determines the initial size of the file
           selector dialog invoked by the Open and Save commands.
           Setting has no effect on Windows.
-        </td>
-      </tr>
-      <tr class="gtkonly">
-        <td>
-          fileselector.show.hidden
-        </td>
-        <td>
-		On GTK+ setting this to 1 makes the file selector dialog
-		invoked by the Open command show hidden files automatically.
         </td>
       </tr>
       <tr>
