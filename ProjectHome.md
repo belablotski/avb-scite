@@ -1,0 +1,1 @@
+Ready to use customized SciTE installation for Windows
